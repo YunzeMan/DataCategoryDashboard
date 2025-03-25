@@ -8,7 +8,7 @@ import streamlit as st
 
 # Show app title and description.
 st.set_page_config(page_title="Task Category Score", page_icon="")
-st.title("Task Category Score")
+st.title("Task Collection Score & Priority") 
 st.write(
     """
     This website shows how valuable each taks category is at the current status. 
@@ -23,30 +23,29 @@ if "df" not in st.session_state:
     # Set seed for reproducibility.
     np.random.seed(42)
 
-    # Make up some fake issue descriptions.
+    # Data fields: Task Category, Credit Scale, Priority, Example Software
     issue_descriptions = [
-        "Office Software",
-        "Image Processing Software",
-        "Audio Processing Software",
-        "Video Processing Software",
-        "Development Software",
-        "Browser Software",
-        "Entertainment Software",
-        "Communication and Collaboration Software",
-        "System Tools",
-        "Network Tools",
-        "Web Tools",
-        "System Configuration",
+        ["Office Software", 100, "High", ["Ubuntu LibreOffice", "Microsoft Office", "Google Docs"]],
+        ["Image Processing Software", 100, "High", ["GIMP", "Photoshop"]],
+        ["Video Processing Software", 100, "High", ["Adobe Premiere", "Kdenlive"]],
+        ["Development and Coding Software", 100, "High", ["VSCode", "PyCharm", "Jupyter Notebook", ]],
+        ["Browser Software", 100, "High", ["chrome", "firefox", "edge"]],
+        ["Entertainment and Social Media Software", 100, "High", ["Spotify", "Discord", "X", "Steam"]],
+        ["Collaboration and Email Software", 100, "High", ["Thunderbird", "email client", "slack", "zoom"]],
+        ["Network Tools", 100, "High", ["VPN", "VNC", "AnyConnect"]],
+        ["System Tools and Operating System Operation", 100, "High", ["Ubuntu VLC", "terminal", "file manager", "image viewer", "PDF viewer"]],
     ]
+    categories_len = len(issue_descriptions)
 
     # Generate the dataframe with 100 rows/tickets.
     data = {
-        "Task Category ID": [i for i in range(0, 12, 1)],
-        "Task Category": issue_descriptions,
-        "Credit Scale": ['100%', '100%', '100%', '100%', '100%', '100%', '100%', '100%', '100%', '100%', '100%', '100%'],
-        "Priority": ['High' for _ in range(12)],
+        "Task Category ID": [i for i in range(0, categories_len, 1)],
+        "Task Category": [issue_descriptions[i][0] for i in range(0, categories_len, 1)],
+        "Credit Scale": [issue_descriptions[i][1] for i in range(0, categories_len, 1)],
+        "Priority": [issue_descriptions[i][2] for i in range(0, categories_len, 1)],
+        "Example Software": [issue_descriptions[i][3] for i in range(0, categories_len, 1)],
         "Date Updated": [
-            datetime.date(2025, 3, 20) for _ in range(12)
+            datetime.date(2025, 3, 25) for _ in range(categories_len)
         ],
     }
     df = pd.DataFrame(data)
